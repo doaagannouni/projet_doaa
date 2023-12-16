@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
+//use App\Http\Controllers\ProductController;
 
 
 /*
@@ -72,11 +72,43 @@ Route::delete('/task/{id}', function ($id) {
 
 */
 
-Route::get('/', function () {
-    return view('welcome');
+use App\Models\Product;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Validator;
+
+// Afficher tous les produits
+Route::get('/products', function () {
+    $products = Product::all();
+    return view('products.index', compact('products'));
 });
 
-// routes/web.php
+// Afficher le formulaire de création de produit
+Route::get('/products/create', function () {
+    return view('products.create');
+});
 
+// Stocker un nouveau produit
+Route::post('/products', function (Request $request) {
+    Product::create($request->all());
+    return redirect('/products');
+});
 
-Route::resource('products', ProductController::class);
+// Afficher le formulaire de modification de produit
+Route::get('/products/{product}', function (Product $product) {
+    return view('products.edit', compact('product'));
+});
+
+// Mettre à jour un produit existant
+Route::put('/products/{product}', function (Request $request, Product $product) {
+    $product->update($request->all());
+    return redirect('/products');
+});
+
+// Supprimer un produit
+Route::delete('/products/{product}', function (Product $product) {
+    $product->delete();
+    return redirect('/products');
+});
