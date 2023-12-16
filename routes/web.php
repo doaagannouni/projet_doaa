@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 /**
     * Show Task Dashboard
     */
+/* 
 Route::get('/', function () {
     Log::info("Get /");
     $startTime = microtime(true);
@@ -33,9 +34,6 @@ Route::get('/', function () {
     }
 });
 
-/**
-    * Add New Task
-    */
 Route::post('/task', function (Request $request) {
     Log::info("Post /task");
     $validator = Validator::make($request->all(), [
@@ -60,7 +58,7 @@ Route::post('/task', function (Request $request) {
 
 /**
     * Delete Task
-    */
+   
 Route::delete('/task/{id}', function ($id) {
     Log::info('Delete /task/'.$id);
     Task::findOrFail($id)->delete();
@@ -69,3 +67,14 @@ Route::delete('/task/{id}', function ($id) {
 
     return redirect('/');
 });
+
+*/
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+// routes/web.php
+
+
+Route::resource('products', ProductController::class);
